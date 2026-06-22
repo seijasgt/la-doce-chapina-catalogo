@@ -18,16 +18,12 @@ export type Product = {
   image_url: string | null;
   img: string | null; // emoji fallback from internal tool
   active: boolean | null;
+  on_sale: boolean | null;
   created_at: string;
   product_sizes: ProductVariant[];
 };
 
-export type AvailabilityFilter =
-  | "all"
-  | "available"
-  | "low_stock"
-  | "incoming"
-  | "sold_out";
+export type AvailabilityFilter = "all" | "available" | "incoming" | "on_sale";
 
 export type StockType = "all" | "stock" | "incoming";
 
