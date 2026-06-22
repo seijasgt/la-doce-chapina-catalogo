@@ -37,8 +37,6 @@ export default function CatalogoPage() {
   useEffect(() => {
     fetchProducts();
 
-    // Suscripción en tiempo real: cualquier cambio en productos o tallas
-    // vuelve a traer la lista completa (simple y siempre consistente).
     const channel = supabase
       .channel("catalogo-realtime")
       .on("postgres_changes", { event: "*", schema: "public", table: "products" }, () => {
@@ -83,8 +81,6 @@ export default function CatalogoPage() {
 
       if (availability !== "all") {
         if (availability === "available") {
-          // "Disponible" agrupa available + low_stock — la tarjeta seguirá
-          // mostrando "Últimas unidades" en el badge cuando aplique.
           if (status !== "available" && status !== "low_stock") return false;
         } else if (availability === "incoming") {
           if (status !== "incoming") return false;
@@ -123,3 +119,51 @@ export default function CatalogoPage() {
     setSelectedSize(null);
     setSelectedTeam("");
     setAvailability("all");
+    setStockType("all");
+  }
+
+  return (
+    <main className="min-h-screen bg-crema">
+      <Header
+        totalAvailable={totals.totalAvailable}
+        totalIncoming={totals.totalIncoming}
+        isLive={isLive}
+      />
+
+      <div className="max-w-6xl mx-auto px-4 py-6 space-y-5">
+        <SearchBar value={search} onChange={setSearch} />
+
+        <FilterBar
+          teams={teams}
+          selectedSize={selectedSize}
+          onSizeChange={setSelectedSize}
+          selectedTeam={selectedTeam}
+          onTeamChange={setSelectedTeam}
+          availability={availability}
+          onAvailabilityChange={setAvailability}
+          stockType={stockType}
+          onStockTypeChange={setStockType}
+          onClear={clearFilters}
+        />
+
+        {loading ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div
+                key={i}
+                className="aspect-[3/4] rounded-xl bg-white border border-azul-oscuro/10 animate-pulse"
+              />
+            ))}
+          </div>
+        ) : (
+          <ProductGrid products={filtered} />
+        )}
+      </div>
+
+      <Footer
+        instagramUrl="https://instagram.com/ladocechapina"
+        facebookUrl="https://facebook.com/ladocechapina"
+      />
+    </main>
+  );
+}
