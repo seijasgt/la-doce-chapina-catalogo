@@ -104,3 +104,12 @@ export default function FilterBar({
         </select>
 
         <button
+          onClick={onClear}
+          className="text-sm px-3 py-2 rounded-md text-azul-oscuro/60 hover:text-azul-oscuro underline"
+        >
+          Limpiar filtros
+        </button>
+      </div>
+    </div>
+  );
+}
