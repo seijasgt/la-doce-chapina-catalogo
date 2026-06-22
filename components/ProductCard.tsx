@@ -10,11 +10,13 @@ import {
 } from "@/lib/utils";
 import StatusBadge from "./StatusBadge";
 import WhatsAppButton from "./WhatsAppButton";
+import ImageLightbox from "./ImageLightbox";
 import { supabase } from "@/lib/supabase";
 
 export default function ProductCard({ product }: { product: Product }) {
   const variants = useMemo(() => sortSizes(product.product_sizes ?? []), [product]);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const overallStatus = computeStatus(product);
   const selectedVariant = variants.find((v) => v.size === selectedSize) ?? null;
@@ -38,7 +40,12 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <article className="bg-white rounded-xl border border-azul-oscuro/10 overflow-hidden flex flex-col h-full hover:shadow-md transition-shadow">
-      <div className="relative aspect-square bg-crema flex items-center justify-center overflow-hidden">
+      <button
+        type="button"
+        onClick={() => product.image_url && setLightboxOpen(true)}
+        className="relative aspect-square bg-crema flex items-center justify-center overflow-hidden w-full cursor-zoom-in"
+        aria-label={product.image_url ? "Ver imagen en grande" : undefined}
+      >
         {product.image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -55,85 +62,10 @@ export default function ProductCard({ product }: { product: Product }) {
         <div className="absolute top-2.5 left-2.5">
           <StatusBadge status={overallStatus} />
         </div>
-      </div>
-
-      <div className="p-4 flex flex-col gap-3 flex-1">
-        <div>
-          {product.team && (
-            <p className="text-[10px] uppercase tracking-[0.12em] text-azul font-bold mb-0.5">
-              {product.team}
-            </p>
-          )}
-          <h3 className="font-display text-lg leading-tight text-azul-oscuro">
-            {product.name}
-          </h3>
-          {product.description && (
-            <p className="text-xs text-azul-oscuro/60 mt-1 line-clamp-2">
-              {product.description}
-            </p>
-          )}
-        </div>
-
-        <p className="font-display text-xl text-azul-oscuro">{fmtQ(product.sale_price)}</p>
-
-        {/* Selector de talla */}
-        <div>
-          <p className="text-[10px] uppercase tracking-wide text-azul-oscuro/50 mb-1.5">
-            Tallas
-          </p>
-          <div className="flex gap-1.5 flex-wrap">
-            {variants.map((v) => {
-              const st = computeVariantStatus(v);
-              const disabled = st === "sold_out";
-              const active = selectedSize === v.size;
-              return (
-                <button
-                  key={v.id}
-                  disabled={disabled}
-                  onClick={() => setSelectedSize(active ? null : v.size)}
-                  title={
-                    st === "incoming"
-                      ? `En camino · ${v.stock_incoming} unidad(es)`
-                      : st === "low_stock"
-                      ? `Últimas ${v.stock_available} unidades`
-                      : st === "sold_out"
-                      ? "Agotado"
-                      : "Disponible"
-                  }
-                  className={`relative min-w-[2.25rem] h-9 px-2 rounded-md text-xs font-bold border transition-colors ${
-                    disabled
-                      ? "border-gray-200 text-gray-300 line-through cursor-not-allowed"
-                      : active
-                      ? "bg-azul-oscuro text-white border-azul-oscuro"
-                      : st === "incoming"
-                      ? "border-dorado text-azul-oscuro bg-dorado/10"
-                      : "border-azul-oscuro/20 text-azul-oscuro hover:border-azul"
-                  }`}
-                >
-                  {v.size}
-                </button>
-              );
-            })}
+        {product.on_sale && (
+          <div className="absolute top-2.5 right-2.5 bg-dorado text-azul-oscuro text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full shadow-sm">
+            🔥 Oferta
           </div>
-        </div>
-
-        {isIncomingOnly && (
-          <p className="text-[11px] text-azul-oscuro/60 bg-dorado/10 border border-dorado/30 rounded-md px-2.5 py-1.5">
-            <strong className="text-azul-oscuro">En camino.</strong> Entrega cuando
-            ingrese el producto.
-          </p>
         )}
-
-        <div className="mt-auto pt-1">
-          <WhatsAppButton
-            productName={product.name}
-            size={selectedSize ?? undefined}
-            type={isIncomingOnly ? "incoming" : "stock"}
-            disabled={isSoldOut || !selectedSize}
-            onClick={logLead}
-          />
-        </div>
-      </div>
-    </article>
-  );
-}
+        {product.image_url && (
+          <div
