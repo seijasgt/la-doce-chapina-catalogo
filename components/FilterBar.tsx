@@ -7,9 +7,8 @@ const SIZES = ["S", "M", "L", "XL", "2XL", "3XL", "4XL"];
 const AVAILABILITY_OPTIONS: { value: AvailabilityFilter; label: string }[] = [
   { value: "all", label: "Todos" },
   { value: "available", label: "Disponible" },
-  { value: "low_stock", label: "Últimas unidades" },
   { value: "incoming", label: "En camino" },
-  { value: "sold_out", label: "Agotado" },
+  { value: "on_sale", label: "Oferta" },
 ];
 
 const TYPE_OPTIONS: { value: StockType; label: string }[] = [
@@ -105,12 +104,3 @@ export default function FilterBar({
         </select>
 
         <button
-          onClick={onClear}
-          className="text-sm px-3 py-2 rounded-md text-azul-oscuro/60 hover:text-azul-oscuro underline"
-        >
-          Limpiar filtros
-        </button>
-      </div>
-    </div>
-  );
-}
