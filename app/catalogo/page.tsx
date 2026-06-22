@@ -37,6 +37,8 @@ export default function CatalogoPage() {
   useEffect(() => {
     fetchProducts();
 
+    // Suscripción en tiempo real: cualquier cambio en productos o tallas
+    // vuelve a traer la lista completa (simple y siempre consistente).
     const channel = supabase
       .channel("catalogo-realtime")
       .on("postgres_changes", { event: "*", schema: "public", table: "products" }, () => {
@@ -81,6 +83,8 @@ export default function CatalogoPage() {
 
       if (availability !== "all") {
         if (availability === "available") {
+          // "Disponible" agrupa available + low_stock — la tarjeta seguirá
+          // mostrando "Últimas unidades" en el badge cuando aplique.
           if (status !== "available" && status !== "low_stock") return false;
         } else if (availability === "incoming") {
           if (status !== "incoming") return false;
