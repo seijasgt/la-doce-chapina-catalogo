@@ -7,40 +7,41 @@
 export const SITE = {
   name: "La Doce Chapina",
   tagline: "Camisas de fútbol retro y actuales en Guatemala",
-  instagramUrl: "https://instagram.com/ladocechapina",
-  facebookUrl: "https://facebook.com/ladocechapina",
-  tiktokUrl: undefined as string | undefined,
+  instagramUrl: "https://www.instagram.com/la_12_chapina/",
+  tiktokUrl: "https://www.tiktok.com/@la_12_chapina?lang=es",
+  facebookUrl: undefined as string | undefined,
   // Temporal: mientras rehacemos el catálogo bajo pedido dentro de esta tienda,
-  // el botón de "Bajo pedido" abre WhatsApp. Cuando esté listo, cambia a "/bajo-pedido".
-  bajoPedidoHref: null as string | null,
+  // todo lo de "bajo pedido" lleva al catálogo de Netlify.
+  // Cuando el nuevo esté listo, cambia esto a "/bajo-pedido".
+  bajoPedidoHref: "https://la12chapina.netlify.app/",
 };
 
 export const HOW_IT_WORKS = [
   {
     n: "1",
     title: "Elige tu camisa",
-    text: "Mira el stock en vivo y elige tu talla. Si no la tenemos, te la conseguimos bajo pedido.",
+    text: "Explora nuestro catálogo en stock o el catálogo bajo pedido, escoge tu modelo y personalízalo a tu gusto.",
   },
   {
     n: "2",
     title: "Confirma tu pedido",
-    text: "Escríbenos por WhatsApp con un clic. Pagas por transferencia o contra entrega.",
+    text: "Hazlo aquí mismo en la página o por WhatsApp. Paga con tarjeta, por transferencia o en efectivo al recibir.",
   },
   {
     n: "3",
     title: "Recíbela en casa",
-    text: "Enviamos a toda Guatemala por Guatex y Cargo Expreso.",
+    text: "Enviamos a toda Guatemala con Forza Delivery y Cargo Expreso, y te damos seguimiento en todo momento.",
   },
 ];
 
 export const FAQ = [
   {
     q: "¿Hacen envíos a todo el país?",
-    a: "Sí. Enviamos a todos los departamentos de Guatemala por Guatex y Cargo Expreso.",
+    a: "Sí. Enviamos a todos los departamentos de Guatemala con Forza Delivery y Cargo Expreso, y te damos seguimiento hasta que tu camisa llegue.",
   },
   {
     q: "¿Cómo puedo pagar?",
-    a: "Por transferencia bancaria o contra entrega. Muy pronto también con tarjeta directamente en la página.",
+    a: "Con tarjeta, por transferencia bancaria o en efectivo al recibir tu pedido.",
   },
   {
     q: "¿Qué significa “en camino”?",
@@ -48,13 +49,16 @@ export const FAQ = [
   },
   {
     q: "¿Qué es un pedido personalizado (bajo pedido)?",
-    a: "Si la camisa que buscas no está en stock, la pedimos para ti, con el nombre, número y parches que quieras. Escríbenos por WhatsApp para cotizar y conocer el tiempo de entrega.",
+    a: "Si la camisa que buscas no está en stock, la pedimos para ti, con el nombre, número y parches que quieras. Revisa nuestro catálogo bajo pedido y escríbenos para confirmar precio y tiempo de entrega.",
   },
   {
     q: "¿Qué tallas manejan?",
     a: "Tallas de adulto de S a 4XL y tallas de niño. En cada camisa ves exactamente qué tallas hay disponibles.",
   },
 ];
+
+/** true si el link sale de esta página (se abre en otra pestaña) */
+export const isExternal = (href: string) => /^https?:\/\//.test(href);
 
 /** Link general de WhatsApp con mensaje prellenado */
 export function whatsAppLink(message: string): string {

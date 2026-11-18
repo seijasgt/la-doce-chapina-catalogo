@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { SITE, whatsAppLink, WA_GENERAL, WA_BAJO_PEDIDO } from "@/lib/site";
+import { SITE, whatsAppLink, WA_GENERAL, isExternal } from "@/lib/site";
 
 export default function SiteNav() {
-  const bajoPedido = SITE.bajoPedidoHref ?? whatsAppLink(WA_BAJO_PEDIDO);
-  const external = !SITE.bajoPedidoHref;
+  const bajoPedido = SITE.bajoPedidoHref;
+  const external = isExternal(bajoPedido);
   return (
     <nav className="sticky top-0 z-40 bg-azul-oscuro/95 backdrop-blur text-white border-b border-white/10">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getLandingData } from "@/lib/landing";
-import { SITE, HOW_IT_WORKS, FAQ, whatsAppLink, WA_GENERAL, WA_BAJO_PEDIDO } from "@/lib/site";
+import { SITE, HOW_IT_WORKS, FAQ, whatsAppLink, WA_GENERAL, isExternal } from "@/lib/site";
+import SocialLinks from "@/components/landing/SocialLinks";
 import SiteNav from "@/components/landing/SiteNav";
 import ProductRail from "@/components/landing/ProductRail";
 import Footer from "@/components/Footer";
@@ -10,8 +11,8 @@ export const revalidate = 300;
 
 export default async function Home() {
   const d = await getLandingData();
-  const bajoPedido = SITE.bajoPedidoHref ?? whatsAppLink(WA_BAJO_PEDIDO);
-  const bajoPedidoExternal = !SITE.bajoPedidoHref;
+  const bajoPedido = SITE.bajoPedidoHref;
+  const bajoPedidoExternal = isExternal(bajoPedido);
   const hero = d.heroProducts;
 
   return (
@@ -48,36 +49,20 @@ export default async function Home() {
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Link
                 href="/catalogo"
-                className="inline-flex justify-center items-center rounded-full bg-dorado text-azul-oscuro px-7 py-3.5 text-sm font-bold uppercase tracking-[0.12em] hover:bg-white transition-colors"
+                className="inline-flex justify-center items-center whitespace-nowrap rounded-full bg-dorado text-azul-oscuro px-6 py-3.5 text-sm font-bold uppercase tracking-[0.08em] hover:bg-white transition-colors"
               >
                 Ver stock disponible
               </Link>
               <a
                 href={bajoPedido}
                 {...(bajoPedidoExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                className="inline-flex justify-center items-center rounded-full border border-white/40 px-7 py-3.5 text-sm font-bold uppercase tracking-[0.12em] hover:border-dorado hover:text-dorado transition-colors"
+                className="inline-flex justify-center items-center whitespace-nowrap rounded-full border border-white/40 px-6 py-3.5 text-sm font-bold uppercase tracking-[0.08em] hover:border-dorado hover:text-dorado transition-colors"
               >
-                Pedir una camisa
+                Ver catálogo bajo pedido
               </a>
             </div>
 
-            {/* marcador de estadio con el stock real */}
-            {d.totalAvailable > 0 && (
-              <div className="mt-10 inline-flex items-stretch rounded-lg overflow-hidden border border-white/15 bg-black/25">
-                <div className="px-4 py-3 border-r border-white/15">
-                  <p className="font-display text-2xl leading-none">{d.totalAvailable}</p>
-                  <p className="text-[10px] uppercase tracking-[0.14em] text-white/60 mt-1">camisas en stock</p>
-                </div>
-                <div className="px-4 py-3 border-r border-white/15">
-                  <p className="font-display text-2xl leading-none">{d.modelsInStock}</p>
-                  <p className="text-[10px] uppercase tracking-[0.14em] text-white/60 mt-1">modelos</p>
-                </div>
-                <div className="px-4 py-3">
-                  <p className="font-display text-2xl leading-none text-dorado">{d.totalIncoming}</p>
-                  <p className="text-[10px] uppercase tracking-[0.14em] text-white/60 mt-1">en camino</p>
-                </div>
-              </div>
-            )}
+            <SocialLinks className="mt-10" />
           </div>
 
           {/* collage de camisas reales del stock */}
@@ -137,11 +122,11 @@ export default async function Home() {
             <p className="text-[11px] uppercase tracking-[0.2em] text-azul-oscuro/70 font-bold">Personalizada</p>
             <h2 className="font-display text-3xl uppercase text-azul-oscuro mt-1">Bajo pedido</h2>
             <p className="text-sm text-azul-oscuro/80 mt-2">
-              ¿No está en stock? La pedimos para ti, con tu nombre, número y parches.
-              Cotiza por WhatsApp.
+              ¿No está en stock? Elige entre cientos de modelos y la pedimos para ti,
+              con tu nombre, número y parches.
             </p>
             <span className="inline-block mt-5 text-xs font-bold uppercase tracking-[0.14em] text-azul-oscuro border-b-2 border-azul-oscuro pb-0.5">
-              Cotizar mi camisa →
+              Ver catálogo bajo pedido →
             </span>
           </a>
         </div>
@@ -258,6 +243,10 @@ export default async function Home() {
           >
             Escríbenos por WhatsApp
           </a>
+          <div className="relative mt-8 pt-6 border-t border-white/10">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-white/60">Síguenos para ver lo nuevo primero</p>
+            <SocialLinks className="mt-3 justify-center" />
+          </div>
         </div>
       </section>
 
