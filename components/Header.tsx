@@ -6,7 +6,8 @@ type HeaderProps = {
   isLive: boolean;
 };
 
-export default function Header({ totalAvailable, totalIncoming, isLive }: HeaderProps) {
+// El contador de stock se quitó a pedido; las props se mantienen para no tocar el catálogo.
+export default function Header(_props: HeaderProps) {
   return (
     <header className="bg-azul-oscuro text-white">
       <div className="max-w-6xl mx-auto px-4 pt-7 pb-6 sm:pt-10 sm:pb-8">
@@ -19,34 +20,6 @@ export default function Header({ totalAvailable, totalIncoming, isLive }: Header
           Stock en vivo: elige tu talla y realiza tu pedido directamente por WhatsApp.
         </p>
 
-        {/* Signature element: marcador estilo marcador de estadio, en vivo */}
-        <div className="mt-6 inline-flex items-stretch rounded-lg overflow-hidden border border-white/15 bg-black/20">
-          <div className="px-4 py-2.5 flex items-center gap-2 border-r border-white/15">
-            <span
-              className={`inline-block w-2 h-2 rounded-full ${
-                isLive ? "bg-dorado animate-pulse" : "bg-white/30"
-              }`}
-              aria-hidden
-            />
-            <span className="text-[10px] tracking-[0.15em] uppercase text-white/70">
-              {isLive ? "En vivo" : "Cargando"}
-            </span>
-          </div>
-          <div className="px-4 py-2.5 border-r border-white/15">
-            <span className="font-display text-lg leading-none">{totalAvailable}</span>
-            <span className="ml-1.5 text-[10px] tracking-[0.1em] uppercase text-white/70">
-              disponibles
-            </span>
-          </div>
-          <div className="px-4 py-2.5">
-            <span className="font-display text-lg leading-none text-dorado">
-              {totalIncoming}
-            </span>
-            <span className="ml-1.5 text-[10px] tracking-[0.1em] uppercase text-white/70">
-              en camino
-            </span>
-          </div>
-        </div>
       </div>
     </header>
   );

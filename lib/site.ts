@@ -25,7 +25,7 @@ export const HOW_IT_WORKS = [
   {
     n: "2",
     title: "Confirma tu pedido",
-    text: "Hazlo aquí mismo en la página o por WhatsApp. Paga con tarjeta, por transferencia o en efectivo al recibir.",
+    text: "Confírmalo con nosotros por WhatsApp con un solo clic. Paga con tarjeta, por transferencia o en efectivo al recibir.",
   },
   {
     n: "3",
