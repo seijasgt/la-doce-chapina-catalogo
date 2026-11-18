@@ -19,6 +19,9 @@ export type Product = {
   img: string | null; // emoji fallback from internal tool
   active: boolean | null;
   on_sale: boolean | null;
+  team_type?: string | null; // "Equipo" | "Selección"
+  era?: string | null; // "Actual" | "2020s" | ... (ver lib/catalog.ts)
+  collections?: string[] | null; // "Leyendas", "Sin dorsal", ...
   created_at: string;
   product_sizes: ProductVariant[];
 };

@@ -14,7 +14,12 @@ import ImageLightbox from "./ImageLightbox";
 import { supabase } from "@/lib/supabase";
 
 export default function ProductCard({ product }: { product: Product }) {
-  const variants = useMemo(() => sortSizes(product.product_sizes ?? []), [product]);
+  // Solo se muestran las tallas que hay (en stock o en camino)
+  const variants = useMemo(
+    () => sortSizes((product.product_sizes ?? []).filter((v) => v.stock_available + (v.stock_incoming || 0) > 0)),
+    [product]
+  );
+  const tags = [product.era, ...(product.collections ?? [])].filter(Boolean) as string[];
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
@@ -86,6 +91,15 @@ export default function ProductCard({ product }: { product: Product }) {
           <h3 className="font-display text-lg leading-tight text-azul-oscuro">
             {product.name}
           </h3>
+          {tags.length > 0 && (
+            <div className="mt-1.5 flex flex-wrap gap-1">
+              {tags.map((t) => (
+                <span key={t} className="text-[10px] font-bold uppercase tracking-wide text-azul-oscuro/60 bg-crema border border-azul-oscuro/10 rounded px-1.5 py-0.5">
+                  {t}
+                </span>
+              ))}
+            </div>
+          )}
           {product.description && (
             <p className="text-xs text-azul-oscuro/60 mt-1 line-clamp-2">
               {product.description}
@@ -101,6 +115,7 @@ export default function ProductCard({ product }: { product: Product }) {
             Tallas
           </p>
           <div className="flex gap-1.5 flex-wrap">
+            {variants.length === 0 && <span className="text-xs text-azul-oscuro/40">Agotado</span>}
             {variants.map((v) => {
               const st = computeVariantStatus(v);
               const disabled = st === "sold_out";
