@@ -9,19 +9,14 @@ type HeaderProps = {
 export default function Header({ totalAvailable, totalIncoming, isLive }: HeaderProps) {
   return (
     <header className="bg-azul-oscuro text-white">
-      <div className="max-w-6xl mx-auto px-4 pt-8 pb-6 sm:pt-12 sm:pb-8">
-        <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-full bg-dorado flex items-center justify-center font-display text-azul-oscuro text-xl shrink-0">
-            12
-          </div>
-          <h1 className="font-display text-2xl sm:text-3xl tracking-wide uppercase">
-            La Doce Chapina
-          </h1>
-        </div>
+      <div className="max-w-6xl mx-auto px-4 pt-7 pb-6 sm:pt-10 sm:pb-8">
+        <p className="text-[11px] uppercase tracking-[0.22em] text-dorado font-bold">Entrega inmediata</p>
+        <h1 className="mt-1 font-display text-3xl sm:text-4xl tracking-wide uppercase">
+          Camisas en stock
+        </h1>
 
-        <p className="mt-3 text-sm sm:text-base text-white/80 max-w-xl">
-          Explora nuestro stock disponible y realiza tu pedido directamente por
-          WhatsApp.
+        <p className="mt-2 text-sm sm:text-base text-white/80 max-w-xl">
+          Stock en vivo: elige tu talla y realiza tu pedido directamente por WhatsApp.
         </p>
 
         {/* Signature element: marcador estilo marcador de estadio, en vivo */}

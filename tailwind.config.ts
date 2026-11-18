@@ -4,6 +4,9 @@ const config: Config = {
   content: [
     "./app/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
+    // lib/utils.ts define los colores de las etiquetas de estado (STATUS_COLOR);
+    // sin esta línea Tailwind no genera esas clases y "Disponible" sale sin color.
+    "./lib/**/*.{ts,tsx}",
   ],
   theme: {
     extend: {

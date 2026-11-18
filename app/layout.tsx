@@ -16,9 +16,9 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "La Doce Chapina — Catálogo",
+  title: "La Doce Chapina — Camisas de fútbol retro y actuales en Guatemala",
   description:
-    "Explora el stock disponible de La Doce Chapina y haz tu pedido directamente por WhatsApp.",
+    "Camisas de fútbol retro y de temporada en Guatemala. Stock en vivo, pedidos personalizados y envío a todo el país.",
 };
 
 export default function RootLayout({

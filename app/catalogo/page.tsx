@@ -6,6 +6,8 @@ import type { Product, AvailabilityFilter, StockType } from "@/lib/types";
 import { computeStatus } from "@/lib/utils";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SiteNav from "@/components/landing/SiteNav";
+import { SITE } from "@/lib/site";
 import SearchBar from "@/components/SearchBar";
 import FilterBar from "@/components/FilterBar";
 import ProductGrid from "@/components/ProductGrid";
@@ -32,6 +34,16 @@ export default function CatalogoPage() {
       setProducts(data as unknown as Product[]);
     }
     setLoading(false);
+  }, []);
+
+  // Filtros que llegan desde la portada: /catalogo?q=..., ?equipo=..., ?filtro=oferta
+  useEffect(() => {
+    const sp = new URLSearchParams(window.location.search);
+    const q = sp.get("q");
+    const equipo = sp.get("equipo");
+    if (q) setSearch(q);
+    if (equipo) setSelectedTeam(equipo);
+    if (sp.get("filtro") === "oferta") setAvailability("on_sale");
   }, []);
 
   useEffect(() => {
@@ -128,6 +140,7 @@ export default function CatalogoPage() {
 
   return (
     <main className="min-h-screen bg-crema">
+      <SiteNav />
       <Header
         totalAvailable={totals.totalAvailable}
         totalIncoming={totals.totalIncoming}
@@ -164,10 +177,7 @@ export default function CatalogoPage() {
         )}
       </div>
 
-      <Footer
-        instagramUrl="https://instagram.com/ladocechapina"
-        facebookUrl="https://facebook.com/ladocechapina"
-      />
+      <Footer instagramUrl={SITE.instagramUrl} facebookUrl={SITE.facebookUrl} tiktokUrl={SITE.tiktokUrl} />
     </main>
   );
 }
