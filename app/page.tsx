@@ -169,9 +169,6 @@ export default async function Home() {
         dark={d.onSale.length > 0}
       />
 
-      {/* ═══ POR EQUIPO ═══ */}
-      <CategorySlider eyebrow="Busca a tu club" title="Compra por equipo" items={d.teams} param="equipo" variant="team" />
-
       {/* ═══ POR COLECCIÓN ═══ */}
       <CategorySlider
         eyebrow="Selección especial"
@@ -186,6 +183,9 @@ export default async function Home() {
           "Edición especial": "Aniversarios y ediciones únicas.",
         }}
       />
+
+      {/* ═══ POR EQUIPO ═══ */}
+      <CategorySlider eyebrow="Busca a tu club" title="Compra por equipo" items={d.teams} param="equipo" variant="team" />
 
       {/* ═══ POR ÉPOCA ═══ */}
       <CategorySlider
