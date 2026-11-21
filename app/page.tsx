@@ -7,6 +7,14 @@ import ProductRail from "@/components/landing/ProductRail";
 import CategorySlider from "@/components/landing/CategorySlider";
 import Footer from "@/components/Footer";
 
+// Portadas fijas de las colecciones (si falta una, se usa la foto de un producto)
+const COLLECTION_COVERS: Record<string, string> = {
+  Leyendas: "/colecciones/leyendas.jpg",
+  "Sin dorsal": "/colecciones/sin-dorsal.jpg",
+  Colaboraciones: "/colecciones/colaboraciones.jpg",
+  "Edición especial": "/colecciones/edicion-especial.jpg",
+};
+
 // La portada se regenera cada 5 minutos con el stock real de Supabase.
 export const revalidate = 300;
 
@@ -159,7 +167,7 @@ export default async function Home() {
       <CategorySlider
         eyebrow="Selección especial"
         title="Compra por colección"
-        items={d.collections}
+        items={d.collections.map((c) => ({ ...c, image: COLLECTION_COVERS[c.name] ?? c.image }))}
         param="coleccion"
         variant="collection"
         blurbs={{
