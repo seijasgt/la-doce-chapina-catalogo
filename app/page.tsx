@@ -13,6 +13,7 @@ const COLLECTION_COVERS: Record<string, string> = {
   "Sin dorsal": "/colecciones/sin-dorsal.jpg",
   Colaboraciones: "/colecciones/colaboraciones.jpg",
   "Edición especial": "/colecciones/edicion-especial.jpg",
+  "Versión jugador": "/colecciones/version-jugador.jpg",
 };
 
 // Portadas fijas de las épocas (si falta una, se usa la foto de un producto)
