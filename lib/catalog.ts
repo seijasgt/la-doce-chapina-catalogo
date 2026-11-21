@@ -3,7 +3,7 @@ import { computeStatus } from "./utils";
 
 /** Deben coincidir con las opciones de RetroKit (ERAS / COLLECTIONS) */
 export const ERAS = ["Actual", "2020s", "2010s", "2000s", "90s", "80s y antes"];
-export const COLLECTIONS = ["Leyendas", "Sin dorsal", "Colaboraciones", "Edición especial"];
+export const COLLECTIONS = ["Leyendas", "Sin dorsal", "Colaboraciones", "Edición especial", "Versión jugador"];
 export const ADULT_SIZES = ["S", "M", "L", "XL", "2XL", "3XL", "4XL"];
 
 export type Availability = "all" | "now" | "incoming";

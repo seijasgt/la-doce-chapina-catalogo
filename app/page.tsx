@@ -181,6 +181,7 @@ export default async function Home() {
           "Sin dorsal": "Limpias, sin nombre ni número.",
           Colaboraciones: "Ediciones con marcas y artistas.",
           "Edición especial": "Aniversarios y ediciones únicas.",
+          "Versión jugador": "La misma tela y corte que usan en la cancha.",
         }}
       />
 
