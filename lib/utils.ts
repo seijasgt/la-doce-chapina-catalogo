@@ -78,3 +78,9 @@ export function buildWhatsAppLink(opts: {
 
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 }
+
+/** Todas las fotos del producto: portada primero, luego la galería, sin repetidas. */
+export function productImages(p: { image_url: string | null; gallery?: string[] | null }): string[] {
+  const all = [p.image_url, ...(p.gallery ?? [])].filter((u): u is string => !!u && u.trim() !== "");
+  return Array.from(new Set(all));
+}

@@ -7,6 +7,7 @@ import {
   computeVariantStatus,
   sortSizes,
   fmtQ,
+  productImages,
 } from "@/lib/utils";
 import StatusBadge from "./StatusBadge";
 import WhatsAppButton from "./WhatsAppButton";
@@ -22,6 +23,9 @@ export default function ProductCard({ product }: { product: Product }) {
   const tags = [product.era, ...(product.collections ?? [])].filter(Boolean) as string[];
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const images = useMemo(() => productImages(product), [product]);
+  const cover = images[0] ?? null;
+  const hoverImg = images[1] ?? null; // en compu, al pasar el mouse se ve la 2a foto (normalmente el dorsal)
 
   const overallStatus = computeStatus(product);
   const selectedVariant = variants.find((v) => v.size === selectedSize) ?? null;
@@ -47,18 +51,30 @@ export default function ProductCard({ product }: { product: Product }) {
     <article className="bg-white rounded-xl border border-azul-oscuro/10 overflow-hidden flex flex-col h-full hover:shadow-md transition-shadow">
       <button
         type="button"
-        onClick={() => product.image_url && setLightboxOpen(true)}
-        className="relative aspect-square bg-crema flex items-center justify-center overflow-hidden w-full cursor-zoom-in"
-        aria-label={product.image_url ? "Ver imagen en grande" : undefined}
+        onClick={() => cover && setLightboxOpen(true)}
+        className="group relative aspect-square bg-crema flex items-center justify-center overflow-hidden w-full cursor-zoom-in"
+        aria-label={cover ? (images.length > 1 ? `Ver ${images.length} fotos` : "Ver imagen en grande") : undefined}
       >
-        {product.image_url ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={product.image_url}
-            alt={product.name}
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
+        {cover ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={cover}
+              alt={product.name}
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+            {hoverImg && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={hoverImg}
+                alt=""
+                aria-hidden
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 [@media(hover:hover)]:group-hover:opacity-100"
+              />
+            )}
+          </>
         ) : (
           <span className="text-6xl" aria-hidden>
             {product.img || "⚽"}
@@ -72,11 +88,20 @@ export default function ProductCard({ product }: { product: Product }) {
             🔥 Oferta
           </div>
         )}
-        {product.image_url && (
-          <div className="absolute bottom-2 right-2 bg-black/50 text-white rounded-full p-1.5">
-            <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current" aria-hidden>
-              <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z" />
-            </svg>
+        {cover && (
+          <div className="absolute bottom-2 right-2 bg-black/55 text-white rounded-full px-2 py-1 flex items-center gap-1 text-[11px] font-bold leading-none">
+            {images.length > 1 ? (
+              <>
+                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current" aria-hidden>
+                  <path d="M9 3 7.2 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.2L15 3H9zm3 15a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                </svg>
+                {images.length}
+              </>
+            ) : (
+              <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current" aria-hidden>
+                <path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z" />
+              </svg>
+            )}
           </div>
         )}
       </button>
@@ -169,9 +194,9 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
       </div>
 
-      {lightboxOpen && product.image_url && (
+      {lightboxOpen && cover && (
         <ImageLightbox
-          src={product.image_url}
+          images={images}
           alt={product.name}
           onClose={() => setLightboxOpen(false)}
         />

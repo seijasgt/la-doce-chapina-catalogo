@@ -15,7 +15,8 @@ export type Product = {
   team: string | null;
   description: string | null;
   sale_price: number;
-  image_url: string | null;
+  image_url: string | null; // foto de portada
+  gallery?: string[] | null; // fotos extra (dorsal, detalles...) en orden
   img: string | null; // emoji fallback from internal tool
   active: boolean | null;
   on_sale: boolean | null;
