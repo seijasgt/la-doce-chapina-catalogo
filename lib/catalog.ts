@@ -49,14 +49,13 @@ const list = (v: string | null) => (v ? v.split(",").map((x) => x.trim()).filter
 export function filtersFromURL(search: string): Filters {
   const sp = new URLSearchParams(search);
   const sort = sp.get("orden") as SortKey | null;
-  const disp = sp.get("disp");
   return {
     q: sp.get("q") ?? "",
     teams: list(sp.get("equipo")),
     eras: list(sp.get("epoca")),
     collections: list(sp.get("coleccion")),
     sizes: list(sp.get("talla")),
-    availability: disp === "ya" ? "now" : disp === "camino" ? "incoming" : "all",
+    availability: "all", // ya no se usa: el catálogo solo muestra stock (links viejos con ?disp= se ignoran)
     // ?filtro=oferta se mantiene por compatibilidad con links viejos
     onSale: sp.get("oferta") === "1" || sp.get("filtro") === "oferta",
     sort: sort && sort in SORT_LABEL ? sort : "recommended",

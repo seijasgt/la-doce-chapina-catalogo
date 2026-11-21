@@ -11,7 +11,6 @@ import {
   isNational,
   norm,
   type Filters,
-  type Availability,
 } from "@/lib/catalog";
 
 type Props = {
@@ -137,33 +136,12 @@ export default function FiltersPanel({ products, filters: f, onChange }: Props) 
   const clubs = teamGroup("Clubes", teamCounts.clubs, showAllClubs, setShowAllClubs, false);
   const nations = teamGroup("Selecciones", teamCounts.nations, showAllNations, setShowAllNations, true);
 
-  const AVAIL: { v: Availability; l: string }[] = [
-    { v: "all", l: "Todo" },
-    { v: "now", l: "Entrega inmediata" },
-    { v: "incoming", l: "En camino" },
-  ];
-
   return (
     <div>
-      <Section title="Disponibilidad">
-        <div className="flex flex-wrap gap-1.5">
-          {AVAIL.map(({ v, l }) => (
-            <button
-              key={v}
-              type="button"
-              onClick={() => set({ availability: v })}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-colors ${
-                f.availability === v
-                  ? "bg-azul-oscuro text-white border-azul-oscuro"
-                  : "border-azul-oscuro/20 text-azul-oscuro hover:border-azul"
-              }`}
-            >
-              {l}
-            </button>
-          ))}
-        </div>
+      {(saleCount > 0 || f.onSale) && (
+      <Section title="Ofertas">
         {saleCount > 0 || f.onSale ? (
-          <label className="mt-3 flex items-center gap-2.5 cursor-pointer">
+          <label className="flex items-center gap-2.5 cursor-pointer">
             <input
               type="checkbox"
               checked={f.onSale}
@@ -175,6 +153,7 @@ export default function FiltersPanel({ products, filters: f, onChange }: Props) 
           </label>
         ) : null}
       </Section>
+      )}
 
       {(sizes.adult.length > 0 || sizes.kids.length > 0) && (
         <Section title="Talla">

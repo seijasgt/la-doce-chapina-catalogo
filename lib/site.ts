@@ -44,10 +44,6 @@ export const FAQ = [
     a: "Con tarjeta, por transferencia bancaria o en efectivo al recibir tu pedido.",
   },
   {
-    q: "¿Qué significa “en camino”?",
-    a: "Son camisas que ya pedimos y vienen hacia Guatemala. Puedes pre-reservar tu talla y te la entregamos en cuanto llegue.",
-  },
-  {
     q: "¿Qué es un pedido personalizado (bajo pedido)?",
     a: "Si la camisa que buscas no está en stock, la pedimos para ti, con el nombre, número y parches que quieras. Revisa nuestro catálogo bajo pedido y escríbenos para confirmar precio y tiempo de entrega.",
   },

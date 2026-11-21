@@ -84,3 +84,18 @@ export function productImages(p: { image_url: string | null; gallery?: string[] 
   const all = [p.image_url, ...(p.gallery ?? [])].filter((u): u is string => !!u && u.trim() !== "");
   return Array.from(new Set(all));
 }
+
+/**
+ * Solo lo que hay físicamente: quita las tallas "en camino" y los productos
+ * que no tienen ninguna unidad disponible. El público nunca ve lo que viene en camino.
+ */
+export function onlyInStock<T extends { product_sizes: ProductVariant[] }>(products: T[]): T[] {
+  return products
+    .map((p) => ({
+      ...p,
+      product_sizes: (p.product_sizes ?? [])
+        .filter((v) => v.stock_available > 0)
+        .map((v) => ({ ...v, stock_incoming: 0 })),
+    }))
+    .filter((p) => p.product_sizes.length > 0);
+}

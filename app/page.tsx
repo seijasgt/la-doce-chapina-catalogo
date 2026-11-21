@@ -4,6 +4,7 @@ import { SITE, HOW_IT_WORKS, FAQ, whatsAppLink, WA_GENERAL, isExternal } from "@
 import SocialLinks from "@/components/landing/SocialLinks";
 import SiteNav from "@/components/landing/SiteNav";
 import ProductRail from "@/components/landing/ProductRail";
+import CategorySlider from "@/components/landing/CategorySlider";
 import Footer from "@/components/Footer";
 
 // La portada se regenera cada 5 minutos con el stock real de Supabase.
@@ -152,38 +153,33 @@ export default async function Home() {
       />
 
       {/* ═══ POR EQUIPO ═══ */}
-      {d.teams.length > 0 && (
-        <section className="max-w-6xl mx-auto px-4 py-14">
-          <p className="text-[11px] uppercase tracking-[0.2em] text-azul font-bold">Busca a tu club</p>
-          <h2 className="font-display text-3xl sm:text-4xl uppercase text-azul-oscuro">Compra por equipo</h2>
-          <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-            {d.teams.map((t) => (
-              <Link
-                key={t.name}
-                href={`/catalogo?equipo=${encodeURIComponent(t.name)}`}
-                className="group flex items-center gap-3 bg-white rounded-xl border border-azul-oscuro/10 p-2.5 pr-4 hover:border-azul hover:shadow-md transition-all"
-              >
-                <span className="w-12 h-12 rounded-lg bg-crema overflow-hidden shrink-0 flex items-center justify-center">
-                  {t.image ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={t.image} alt="" loading="lazy" className="w-full h-full object-cover" />
-                  ) : (
-                    "⚽"
-                  )}
-                </span>
-                <span className="min-w-0">
-                  <span className="block font-display text-base uppercase text-azul-oscuro truncate group-hover:text-azul">
-                    {t.name}
-                  </span>
-                  <span className="block text-[11px] text-azul-oscuro/50">
-                    {t.count} modelo{t.count !== 1 ? "s" : ""}
-                  </span>
-                </span>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
+      <CategorySlider eyebrow="Busca a tu club" title="Compra por equipo" items={d.teams} param="equipo" variant="team" />
+
+      {/* ═══ POR COLECCIÓN ═══ */}
+      <CategorySlider
+        eyebrow="Selección especial"
+        title="Compra por colección"
+        items={d.collections}
+        param="coleccion"
+        variant="collection"
+        blurbs={{
+          Leyendas: "Las camisas de los ídolos que marcaron época.",
+          "Sin dorsal": "Limpias, sin nombre ni número.",
+          Colaboraciones: "Ediciones con marcas y artistas.",
+          "Edición especial": "Aniversarios y ediciones únicas.",
+        }}
+      />
+
+      {/* ═══ POR ÉPOCA ═══ */}
+      <CategorySlider
+        eyebrow="Viaja en el tiempo"
+        title="Compra por época"
+        items={d.eras}
+        param="epoca"
+        variant="era"
+        dark
+        labels={{ Actual: "Actuales", "80s y antes": "80s y antes" }}
+      />
 
       {/* ═══ CÓMO FUNCIONA ═══ */}
       <section id="como-funciona" className="bg-white border-y border-azul-oscuro/10 scroll-mt-20">

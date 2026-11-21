@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
+import { onlyInStock } from "@/lib/utils";
 import type { Product } from "@/lib/types";
 import {
   ERAS,
@@ -37,7 +38,8 @@ export default function CatalogoPage() {
       .select("*, product_sizes(*)")
       .eq("active", true)
       .order("created_at", { ascending: false });
-    if (!error && data) setProducts(data as unknown as Product[]);
+    // Solo producto en stock: lo que viene en camino no se muestra al público
+    if (!error && data) setProducts(onlyInStock(data as unknown as Product[]));
     setLoading(false);
   }, []);
 
@@ -106,9 +108,6 @@ export default function CatalogoPage() {
       remove: () => setFilters({ ...filters, collections: filters.collections.filter((x) => x !== c) }),
     })),
     ...filters.sizes.map((s) => ({ label: `Talla ${s}`, remove: () => setFilters({ ...filters, sizes: filters.sizes.filter((x) => x !== s) }) })),
-    ...(filters.availability !== "all"
-      ? [{ label: filters.availability === "now" ? "Entrega inmediata" : "En camino", remove: () => setFilters({ ...filters, availability: "all" }) }]
-      : []),
     ...(filters.onSale ? [{ label: "🔥 Ofertas", remove: () => setFilters({ ...filters, onSale: false }) }] : []),
   ];
   const clearAll = () => setFilters({ ...EMPTY_FILTERS, sort: filters.sort });
