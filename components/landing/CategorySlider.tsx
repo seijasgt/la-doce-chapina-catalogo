@@ -125,31 +125,27 @@ export default function CategorySlider({ eyebrow, title, items, param, variant, 
                 </Link>
               );
 
-            // Época
+            // Época: foto a todo color, degradado y el año grande abajo
             return (
               <Link
                 key={it.name}
                 href={href}
-                className="group snap-start shrink-0 relative w-[160px] sm:w-[190px] aspect-[3/4] rounded-2xl overflow-hidden border border-white/15 hover:border-dorado transition-colors bg-azul-oscuro"
+                className="group snap-start shrink-0 relative w-[170px] sm:w-[200px] aspect-[3/4] rounded-2xl overflow-hidden border border-white/15 hover:border-dorado transition-colors bg-azul"
               >
                 {it.image && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={it.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-25 grayscale-[30%] group-hover:opacity-40 transition-opacity" />
+                  <img src={it.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" />
                 )}
-                <span
-                  aria-hidden
-                  className="absolute inset-0 opacity-[0.08]"
-                  style={{ backgroundImage: "repeating-linear-gradient(135deg, #fff 0 2px, transparent 2px 22px)" }}
-                />
-                <span className="absolute inset-0 flex flex-col items-center justify-center text-center p-3">
+                <span className="absolute inset-0 bg-gradient-to-t from-azul-oscuro via-azul-oscuro/30 to-transparent" />
+                <span className="absolute inset-x-0 bottom-0 p-4">
                   <span
-                    className={`font-display text-dorado leading-[0.95] break-words max-w-full ${
-                      label.length <= 5 ? "text-5xl sm:text-6xl" : "text-3xl sm:text-4xl"
+                    className={`block font-display text-dorado leading-[0.95] break-words ${
+                      label.length <= 5 ? "text-5xl" : "text-3xl"
                     }`}
                   >
                     {label}
                   </span>
-                  <span className="mt-2 text-[11px] font-bold uppercase tracking-[0.14em] text-white/80">{modelos(it.count)}</span>
+                  <span className="block mt-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-white/85">{modelos(it.count)}</span>
                 </span>
               </Link>
             );

@@ -15,6 +15,15 @@ const COLLECTION_COVERS: Record<string, string> = {
   "Edición especial": "/colecciones/edicion-especial.jpg",
 };
 
+// Portadas fijas de las épocas (si falta una, se usa la foto de un producto)
+const ERA_COVERS: Record<string, string> = {
+  Actual: "/epocas/actual.jpg",
+  "2010s": "/epocas/2010s.jpg",
+  "2000s": "/epocas/2000s.jpg",
+  "90s": "/epocas/90s.jpg",
+  "80s y antes": "/epocas/80s.jpg",
+};
+
 // La portada se regenera cada 5 minutos con el stock real de Supabase.
 export const revalidate = 300;
 
@@ -182,7 +191,7 @@ export default async function Home() {
       <CategorySlider
         eyebrow="Viaja en el tiempo"
         title="Compra por época"
-        items={d.eras}
+        items={d.eras.map((e) => ({ ...e, image: ERA_COVERS[e.name] ?? e.image }))}
         param="epoca"
         variant="era"
         dark
